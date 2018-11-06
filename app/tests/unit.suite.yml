@@ -1,0 +1,11 @@
+actor: UnitTester
+modules:
+    enabled:
+        - Db:
+             dsn: 'mysql:host=database;dbname=users_test'
+             user: 'root'
+             password: ''
+             dump: 'tests/_data/dump.sql'
+             populate: true
+             cleanup: true
+             reconnect: false
