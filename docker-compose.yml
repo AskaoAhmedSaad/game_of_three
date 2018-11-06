@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web: 
+    image: nginx:1.11-alpine
+    volumes:
+      - ./app:/code
+      - ./env/nginx/site.conf:/etc/nginx/conf.d/site.conf
+      - ./env/cert:/certs
+    ports:
+      - "8888:80"
+      - "80:80"
+  php:
+    build: ./env/docker
+    volumes: 
+      - ./app:/code
+      - ./env/entrypoint:/entrypoint
+      - ./env/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+    entrypoint: /entrypoint/entrypoint.sh
+  database:
+    image: mysql:5.7
+    volumes:
+      - ./env/mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "3306:3306"
