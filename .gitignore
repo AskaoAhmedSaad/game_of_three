@@ -2,4 +2,6 @@
 # composer vendor dir
 /app/vendor
 /runtime/
+/env/mysql_data/game_of_three/
+
 
