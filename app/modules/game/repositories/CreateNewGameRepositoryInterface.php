@@ -6,5 +6,7 @@ namespace app\modules\game\repositories;
 
 interface CreateNewGameRepositoryInterface
 {
+	public function __construct(int $player);
+
     public function create();
 }

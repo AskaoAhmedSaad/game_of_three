@@ -7,17 +7,17 @@ namespace app\modules\game\repositories;
 use Yii;
 use app\modules\game\models\Games;
 use app\modules\game\models\Hits;
-use Exception;
+use yii\web\NotAcceptableHttpException;
 
 class DbCreateNewGameRepository implements CreateNewGameRepositoryInterface
 {
     protected $player;
+    protected $getGameRepository;
 
     public function __construct(int $player)
     {
         $this->player = $player;
-        // $this->successResponse = Yii::$container->get('SuccessResponse');
-        // $this->errorResponse = Yii::$container->get('ErrorResponse');
+        $this->getGameRepository = Yii::$container->get('app\modules\game\repositories\GetGameRepositoryInterface');
     }
     /**
      *  creating new group 
@@ -27,8 +27,12 @@ class DbCreateNewGameRepository implements CreateNewGameRepositoryInterface
     {
         $transaction = Yii::$app->db->beginTransaction();
         try {
+            $lastGame = $this->getGameRepository->getLastGame();
+            // if ($lastGame && $lastGame->IsActive)
+            //     throw new NotAcceptableHttpException('there is current game still active!', 1);
             $game = $this->createNewGame();
-            $hit = $this->createTheFirstHit($game->id);
+            $dbCreateHitsRepository = Yii::$container->get('app\modules\game\repositories\CreateHitsRepositoryInterface', [$this->player, $game->id]);
+            $hit = $dbCreateHitsRepository->createHit(true);
             $transaction->commit();
 
             return $game;
@@ -42,21 +46,6 @@ class DbCreateNewGameRepository implements CreateNewGameRepositoryInterface
     protected function createNewGame()
     {
         $model = new Games;
-        if (!$model->save()) {
-            throw new Exception('error in creating new ' . get_class($model) . ' : ' . current($model->getFirstErrors()), 1);
-        }
-
-        return $model;
-    }
-
-    protected function createTheFirstHit(int $gameId)
-    {
-        if (!$this->player)
-            throw new Exception("no player passed!", 1);
-        $model = new Hits;
-        $model->value = rand(10, 999);
-        $model->player = $this->player;
-        $model->game_id = $gameId;
         if (!$model->save()) {
             throw new Exception('error in creating new ' . get_class($model) . ' : ' . current($model->getFirstErrors()), 1);
         }

@@ -46,6 +46,11 @@ class Games extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getIsActive()
+    {
+        return $this->status == self::ACTIVE_STATUS;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
