@@ -17,7 +17,7 @@ class DbCreateNewGameRepository implements CreateNewGameRepositoryInterface
     public function __construct(int $player)
     {
         $this->player = $player;
-        $this->getGameRepository = Yii::$container->get('app\modules\game\repositories\GetGameRepositoryInterface');
+
     }
     /**
      *  creating new group 
@@ -27,19 +27,16 @@ class DbCreateNewGameRepository implements CreateNewGameRepositoryInterface
     {
         $transaction = Yii::$app->db->beginTransaction();
         try {
-            $lastGame = $this->getGameRepository->getLastGame();
-            // if ($lastGame && $lastGame->IsActive)
-            //     throw new NotAcceptableHttpException('there is current game still active!', 1);
             $game = $this->createNewGame();
             $dbCreateHitsRepository = Yii::$container->get('app\modules\game\repositories\CreateHitsRepositoryInterface', [$this->player, $game->id]);
-            $hit = $dbCreateHitsRepository->createHit(true);
+            $hit = $dbCreateHitsRepository->createFirstHit(true);
             $transaction->commit();
 
             return $game;
         } catch (Exception $e) {
             $transaction->rollBack();
             Yii::$app->response->statusCode = 422;
-            throw new Exception($e->getMessage(), 1);
+            throw new Exception('something error happens!', 1);
         } 
     }
 

@@ -11,5 +11,8 @@ return [
        'app\modules\game\repositories\CreateHitsRepositoryInterface' => [
           'class' =>  'app\modules\game\repositories\DbCreateHitsRepository'
        ],
+       'app\modules\game\repositories\GetHitsRepositoryInterface' => [
+          'class' =>  'app\modules\game\repositories\DbGetHitsRepository'
+       ],
     ]
 ];

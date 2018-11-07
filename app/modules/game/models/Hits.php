@@ -57,4 +57,14 @@ class Hits extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Games::className(), ['id' => 'game_id']);
     }
+
+    public function canCreateNewHit()
+    {
+        return $this->value > 1;
+    }
+
+    public function isTheSamePayer($player)
+    {
+        return $this->player == $player;
+    }
 }

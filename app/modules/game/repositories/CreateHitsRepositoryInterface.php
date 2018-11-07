@@ -8,5 +8,7 @@ interface CreateHitsRepositoryInterface
 {
 	public function __construct(int $player, int $gameId);
 
-    public function createHit($isFirstHit = false);
+    public function createFirstHit();
+
+    public function createHit($lastHitValue);
 }

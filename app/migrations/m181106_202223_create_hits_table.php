@@ -22,7 +22,7 @@ class m181106_202223_create_hits_table extends Migration
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritdoc}    
      */
     public function safeDown()
     {

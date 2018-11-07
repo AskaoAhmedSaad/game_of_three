@@ -2,7 +2,8 @@
 $this->title = 'Starting Game';
 ?>
 <h4>Starting Game</h4>
-<form method="POST">
+<hp><?= $msg ?></p>
+<form method="POST" action="/hit?start=<?= $player ?>">
 	<input id="form-token" type="hidden" name="<?=Yii::$app->request->csrfParam?>"
            value="<?=Yii::$app->request->csrfToken?>"/>
 	<button type="submit">Start</button>
