@@ -14,7 +14,7 @@ class m181106_202223_create_hits_table extends Migration
     {
         $this->createTable('hits', [
             'id' => 'INT(5) NOT NULL AUTO_INCREMENT PRIMARY KEY',
-            'value' => 'INT(3) NOT NULL',
+            'value' => 'INT(2) NOT NULL',
             'player' => 'ENUM ("1","2") NOT NULL',
             'game_id' => 'INT(5)'
         ]);

@@ -31,7 +31,7 @@ class Games extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status'], 'string'],
+            [['status'], 'integer'],
         ];
     }
 

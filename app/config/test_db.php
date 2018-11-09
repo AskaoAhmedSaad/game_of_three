@@ -2,7 +2,7 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=database;dbname=game_of_three',
+    'dsn' => 'mysql:host=database;dbname=game_of_three_test',
     'username' => 'root',
     'password' => '',
     'charset' => 'utf8',

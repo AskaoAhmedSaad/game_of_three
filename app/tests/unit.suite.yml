@@ -2,7 +2,7 @@ actor: UnitTester
 modules:
     enabled:
         - Db:
-             dsn: 'mysql:host=database;dbname=users_test'
+             dsn: 'mysql:host=database;dbname=game_of_three_test'
              user: 'root'
              password: ''
              dump: 'tests/_data/dump.sql'

@@ -18,6 +18,7 @@ class GamesController extends Controller
      */
     public function actionStart(int $player)
     {
+        $this->validatePlayer($player);
         $msg = '';
         $getGameRepository = Yii::$container->get('app\modules\game\repositories\GetGameRepositoryInterface');
         $lastGame = $getGameRepository->getLastGame();
@@ -39,35 +40,53 @@ class GamesController extends Controller
      */
     public function actionHit(int $player, int $id)
     {
+        $this->validatePlayer($player);
         $value = 0;
-        $msg = 'watting for your hit';
-        $allowNewGame = false;
         $getHitsRepository = Yii::$container->get('app\modules\game\repositories\GetHitsRepositoryInterface', [$player, $id]);
         $lastGameHit = $getHitsRepository->getLastGameHit();
         if (!$lastGameHit){
-            $msg = 'something wrong happen';
-            return $this->render('hit', ['msg' => $msg, 'value' => $value, 'allowNewGame' => $allowNewGame]);
+            return $this->redirect(['error', 'msg' => 'something wrong happen with the game']);
         }
         $value = $lastGameHit->value;
         
         if (Yii::$app->request->isPost) {
-            if (!$lastGameHit->canCreateNewHit()) {
-                $msg =  "can't add more hits play a new game";
-                $value = $lastGameHit->value;
-            } else {
-                if ($lastGameHit->isTheSamePayer($player)) {
-                    $value = $lastGameHit->value;
-                    $msg =  "can't make new it wait for the other player hit";
-                } else {
-                    $createHitsRepository = Yii::$container->get('app\modules\game\repositories\CreateHitsRepositoryInterface', [$player, $id]);
-                    $newGameHit = $this->createHitsRepository->createHit($lastGameHit->value);
-                    $value = $newGameHit->value;
-                    $msg = 'wait until the other player hit';
-                }
+            if ($lastGameHit->canCreateNewHit() && !$lastGameHit->isTheSamePayer($player)) {
+                $createHitsRepository = Yii::$container->get('app\modules\game\repositories\CreateHitsRepositoryInterface', [$player, $id]);
+                $createHitsRepository->createHit($lastGameHit->value);
+                return $this->redirect(['hit', 'player' => $player, 'id' => $id]);
             }
         }
 
-        return $this->render('hit', ['player' => $player, 'id' =>  $id, 'msg' => $msg, 'value' => $value, 'allowNewGame' => $allowNewGame]);
+        return $this->render('hit', ['msg' => $this->getTheHitMsg($lastGameHit, $player), 'value' => $value, 'allowNewGame' => !$lastGameHit->canCreateNewHit()]);
     }
 
+    public function actionError(String $msg)
+    {
+        return $this->render('error', ['msg' => $msg]);
+    }
+
+    private function getTheHitMsg($lastGameHit, int $player)
+    {
+        $msg = '';
+            if ($lastGameHit->isTheSamePayer($player)) {
+                if ($lastGameHit->canCreateNewHit()) {
+                    $msg = "waitting for the other player hit";
+                } else {
+                    $msg = 'you win!';
+                }
+            } else {
+                if ($lastGameHit->canCreateNewHit($player))
+                    $msg = "waitting for your hit";
+                else
+                    $msg = "can't add more hits values became 1 - you lose";
+            }
+
+        return $msg;
+    }
+
+    private function validatePlayer(int $player)
+    {
+        if ($player !== 1 && $player !== 2)
+            return $this->redirect(['error', 'msg' => 'wrong player number']);
+    }
 }

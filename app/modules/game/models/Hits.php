@@ -67,4 +67,12 @@ class Hits extends \yii\db\ActiveRecord
     {
         return $this->player == $player;
     }
+
+    public function isWinning($player)
+    {
+        if (!$this->canCreateNewHit() && $this->isTheSamePayer($player))
+            return true;
+        return false;
+    }
+
 }
