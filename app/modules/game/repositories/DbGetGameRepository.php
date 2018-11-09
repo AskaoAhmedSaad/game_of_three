@@ -1,6 +1,6 @@
 <?php
 /**
-* repository for creating new game
+* repository for getting games
 */
 namespace app\modules\game\repositories;
 
@@ -12,7 +12,7 @@ class DbGetGameRepository implements GetGameRepositoryInterface
 {
     /**
      *  get the last game row 
-     *  return app\modules\game\models\Games object 
+     *  @return app\modules\game\models\Games object 
      **/
     public function getLastGame()
     {

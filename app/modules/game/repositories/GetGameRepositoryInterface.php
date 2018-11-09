@@ -1,6 +1,6 @@
 <?php
 /**
-* interface for any creating new game repositories
+* interface for any getting games repositories
 */
 namespace app\modules\game\repositories;
 

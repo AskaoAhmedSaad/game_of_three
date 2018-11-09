@@ -20,8 +20,8 @@ class DbCreateNewGameRepository implements CreateNewGameRepositoryInterface
 
     }
     /**
-     *  creating new group 
-     * @param Array $params creating params
+     *  creating new game
+     * @return app\modules\game\models\Games object
      **/
     public function create()
     {

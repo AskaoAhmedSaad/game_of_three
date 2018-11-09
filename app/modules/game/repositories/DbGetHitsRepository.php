@@ -12,13 +12,13 @@ class DbGetHitsRepository implements GetHitsRepositoryInterface
 {
     protected $gameId;
 
-    public function __construct(int $player, int $gameId){
+    public function __construct(int $gameId){
         $this->gameId = $gameId;
     }
 
     /**
      *  get the last game's hit 
-     *  return app\modules\game\models\Hits object 
+     *  @return app\modules\game\models\Hits object 
      **/
     public function getLastGameHit()
     {

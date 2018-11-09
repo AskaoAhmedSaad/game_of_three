@@ -72,6 +72,9 @@ class DbCreateHitsRepository implements CreateHitsRepositoryInterface
         }
     }
 
+    /**
+     *  inactive the game .... set status = 0
+     **/
     protected function inActiveTheGame()
     {
         if (!$this->model)
@@ -84,9 +87,6 @@ class DbCreateHitsRepository implements CreateHitsRepositoryInterface
         } else {
             throw new Exception('error: $this->model sould be initialized', 1);
         }
-
-
-        return false;
     }
 
 

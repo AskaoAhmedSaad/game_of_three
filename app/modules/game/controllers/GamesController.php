@@ -42,7 +42,7 @@ class GamesController extends Controller
     {
         $this->validatePlayer($player);
         $value = 0;
-        $getHitsRepository = Yii::$container->get('app\modules\game\repositories\GetHitsRepositoryInterface', [$player, $id]);
+        $getHitsRepository = Yii::$container->get('app\modules\game\repositories\GetHitsRepositoryInterface', [$id]);
         $lastGameHit = $getHitsRepository->getLastGameHit();
         if (!$lastGameHit){
             return $this->redirect(['error', 'msg' => 'something wrong happen with the game']);
@@ -60,11 +60,20 @@ class GamesController extends Controller
         return $this->render('hit', ['msg' => $this->getTheHitMsg($lastGameHit, $player), 'value' => $value, 'allowNewGame' => !$lastGameHit->canCreateNewHit()]);
     }
 
+    /**
+     * error page with error message
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
     public function actionError(String $msg)
     {
         return $this->render('error', ['msg' => $msg]);
     }
 
+    /**
+     * get the hi response message
+     * @return string $msg
+     */
     private function getTheHitMsg($lastGameHit, int $player)
     {
         $msg = '';
@@ -84,6 +93,11 @@ class GamesController extends Controller
         return $msg;
     }
 
+    /**
+     * validate the player id 
+     * if wrong redirect ro error page
+     * @return mixed/void
+     */
     private function validatePlayer(int $player)
     {
         if ($player !== 1 && $player !== 2)
