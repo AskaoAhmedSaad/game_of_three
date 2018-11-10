@@ -28,7 +28,7 @@
 
 ```CREATE SCHEMA `game_of_three_test` DEFAULT CHARACTER SET utf8 ;```
 
-### db diagram
+##### db diagram
 
 ![print screen](db_diagram.png)
 
