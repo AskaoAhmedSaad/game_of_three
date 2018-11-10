@@ -51,6 +51,6 @@
 - for player 1 the enrty url ```http://game.dev/start?player=1``` - click start, this will create new game and first hit for player1 with random number
 - it will be redirect to url ```http://game.dev/hit?player=1&id=1``` and player 1 can't add new hit
 - the player 2 add new hit from this url ```http://game.dev/hit?player=2&id=1```
-- then palay 1 can add new hit from his url  ```http://game.dev/hit?player=1&id=1```
+- then player 1 can add new hit from his url  ```http://game.dev/hit?player=1&id=1```
 - and so on
 
