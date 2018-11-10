@@ -1,5 +1,5 @@
 <?php
-namespace tests\repositories;
+namespace app\tests\unit\repositories;
 
 use Yii;
 use yii\codeception\TestCase;

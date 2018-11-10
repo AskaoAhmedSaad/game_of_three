@@ -1,18 +1,14 @@
 <?php
-namespace tests\repositories;
+namespace app\tests\unit\repositories;
 
 use Yii;
 use yii\codeception\TestCase;
 use Codeception\Specify;
+use app\modules\game\models\Games;
 
 class DbCreateNewGameRepositoryTest extends TestCase
 {
     use Specify;
-    
-    protected function setUp()
-    {
-        parent::setUp();
-    }
 
     public function testCreate()
     {
@@ -24,6 +20,7 @@ class DbCreateNewGameRepositoryTest extends TestCase
             $this->assertTrue(is_a($game, '\app\modules\game\models\Games'));
             $this->assertNotEmpty($game->hits); // has first hit
             $this->assertTrue(count($game->hits) === 1); // has only one first hit
+            $this->assertTrue($game->status == Games::ACTIVE_STATUS); // is active game
         });
 
         $this->specify("test negative creation of new games with passing Invalid player number", function() {

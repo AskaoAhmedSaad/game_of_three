@@ -59,7 +59,8 @@ class DbCreateHitsRepository implements CreateHitsRepositoryInterface
 
     /**
      *  create new hit for a game
-     *  @return int $lastHitValue
+     *  @param int $lastHitValue
+     *  @return int
      **/
     protected function getTheNextHitValue($lastHitValue)
     {
@@ -75,7 +76,7 @@ class DbCreateHitsRepository implements CreateHitsRepositoryInterface
     /**
      *  inactive the game .... set status = 0
      **/
-    protected function inActiveTheGame()
+    private function inActiveTheGame()
     {
         if (!$this->model)
             throw new Exception('error: $this->model sould be initialized', 1);
@@ -85,10 +86,7 @@ class DbCreateHitsRepository implements CreateHitsRepositoryInterface
                 throw new Exception('error in inactivating the game', 1);
             }
         } else {
-            throw new Exception('error: $this->model sould be initialized', 1);
+            throw new Exception("error: the hit's game not found!", 1);
         }
     }
-
-
-
 }
